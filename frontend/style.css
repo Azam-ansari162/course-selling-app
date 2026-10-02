@@ -1,0 +1,50 @@
+
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Provides a reference point for the login button */
+    position: relative;
+}
+.available-courses{ 
+    /* Changes: Now it dynamically adjusts 
+    its size based on the cards inside */
+    width: fit-content;
+    height: fit-content;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 20px;
+}
+.course{
+    border: 1px solid black;
+    padding: 10px;
+    height: 200px;
+    width: 200px;
+
+}
+.login-button{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+.user-login{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+.admin-login-button{
+   position: fixed;
+   bottom: 20px;
+   right: 20px; 
+}
+.logo{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
