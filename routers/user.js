@@ -53,7 +53,7 @@ userRouter.post('/signin',async (req,res)=>{
 
     }
     else{
-        res.send(403).json({
+        res.status(403).json({
             msg:"Incorrect Credentials"
         })
     }
@@ -82,10 +82,20 @@ userRouter.post('/purchase',userMiddleware,async (req,res)=>{
     // should check if the user has paid the price or not
     const course=req.body.course
     const UserId=req._id
-    const findCourse=await CourseModel.findOne({
+    try{
+        const findCourse=await CourseModel.findOne({
         course:course
     })
-    if(findCourse){
+    const alreadyBought=await PurchaseModel.findOne({
+        courseId:findCourse._id.toString(),
+        UserId:UserId
+    })
+    if(alreadyBought){
+        return res.status(400).json({
+            msg:"You have already purchased this course"
+        })
+    }
+    if(findCourse && !alreadyBought){
         await PurchaseModel.create({
         course:findCourse.course,
         courseId:findCourse._id.toString(),
@@ -101,6 +111,12 @@ userRouter.post('/purchase',userMiddleware,async (req,res)=>{
             msg:"Course not found"
         })
     }
+    }
+    catch(err){
+        console.error("Purchase error:",err)
+        res.status(500).json({msg:"Server error during purchase"})
+    }
+
 })
 // a user don't need to authenticate to 
 // see all the available courses

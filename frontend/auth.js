@@ -1,33 +1,3 @@
-
-async function renderAvailableCourses(){
-    const response=await fetch("http://localhost:3000/users/see")
-    const data=await response.json()
-    
-    let html=""
-    data.courses.forEach(course=>{
-        // adding data-id to identify which course to buy
-
-         const courseId=course._id
-         html+=`<div class="course"><h3>${course.course}</h3>
-         <p>${course.description}</p>
-         <span>₹${course.price}</span>
-        
-         <button class="buy-btn" data-id="${courseId}">Buy</button>
-         </div>
-         `
-
-    })
-    document.querySelector(".available-courses").innerHTML=html
-    
-
-
-    
-    
-    
-    
-}
-
-renderAvailableCourses()
 async function AuthForm(){
 
     const loginButton=document.querySelector(".submit")
@@ -101,4 +71,5 @@ async function AuthForm(){
     })
 }
 AuthForm()
+
 
