@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <div class="logo">
+        <a href="index.html">
+            <img style="width: 100px; cursor: pointer; " src="img/Gemini_Generated_Image_i17t7li17t7li17t.png">
+        </a>
+    </div>
+    <div class="login-button">
+        <button id="logoutBtn" style="cursor: pointer">Logout</button>
+    </div>
+    <div class="admin-box">
+        <h2>Admin Management</h2>
+
+        <!-- 1. CREATE COURSE -->
+        <div class="action-card">
+            <h3>Create Course</h3>
+            <input type="text" id="createTitle" placeholder="Course Title" required>
+            <textarea id="createDesc" placeholder="Description" rows="2" required></textarea>
+            <input type="number" id="createPrice" placeholder="Price (₹)" required>
+            <button id="createBtn" style="cursor: pointer;">Create Course</button>
+        </div>
+
+        <!-- 2. UPDATE COURSE -->
+        <div class="action-card">
+            <h3>Update Course</h3>
+            sxz " placeholder="Course ID to Update" required>
+            <input type="text" id="updateTitle" placeholder="New Title">
+            <textarea id="updateDesc" placeholder="New Description" rows="2"></textarea>
+            <input type="number" id="updatePrice" placeholder="New Price (₹)">
+            <button id="updateBtn" style="cursor: pointer;">Update Course</button>
+        </div>
+
+        <!-- 3. DELETE COURSE -->
+        <div class="action-card">
+            <h3>Delete Course</h3>
+            <input type="text" id="deleteId" placeholder="Course ID to Delete" required>
+            <button id="deleteBtn" style="cursor: pointer; color: red;">Delete Course</button>
+        </div>
+    </div>
+    
+</body>
+</html>

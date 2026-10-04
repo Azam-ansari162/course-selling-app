@@ -52,23 +52,25 @@ courseRouter.post('/create',adminMiddleware,async (req,res)=>{
 })
 courseRouter.delete('/delete',adminMiddleware,async (req,res)=>{
     const course=req.body.course
+    const creatorId=req._id
     const findCourseToBeDeleted=await CourseModel.findOne({
-        course:course
+        course:course,
+        creatorId:creatorId
     })
     if(findCourseToBeDeleted){
         await CourseModel.findByIdAndDelete(findCourseToBeDeleted._id)
    
-        res.json({
+        return res.json({
         msg:"Course deleted successfully"
     }) 
     }
      
     
 
-        res.send(403).json({
-            msg:"course does not exist"
-        })
-    
+    res.status(404).json({
+        msg:"course does not exist"
+    })
+
 
 
 
@@ -96,13 +98,15 @@ courseRouter.put('/update',adminMiddleware,async (req,res)=>{
     console.log(Updatedcourse)
 }
 catch(e){
-    res.send(403).json({
+    res.status(403).json({
         msg:"some error occured"
 
     })
 }
 
 })
+
+
 
 // exporting courseRouter
 module.exports={

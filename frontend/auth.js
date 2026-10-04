@@ -24,7 +24,14 @@ async function AuthForm(){
         if(data && data.token){
             alert(`${role} Signed in successfully`)
             //saving the user token to use it for further requests 
-            localStorage.setItem(role==="admin"?"adminToken":"userToken",data.token)
+            if(role=="user") {
+                localStorage.setItem("userToken",data.token)
+                window.location.href="index.html"
+            }
+            else{
+                localStorage.setItem("adminToken",data.token)
+                window.location.href="adminDashboard.html"
+            }
         }
         else{
             alert("Login failed. Please check your credentials")
