@@ -401,3 +401,26 @@ button {
     align-self: stretch;
   }
 }
+
+/* --- Purchases Button Container --- */
+.purchases-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px; /* Adds space between the button and the courses */
+  margin-top: 20px;
+}
+
+.purchases-container button {
+  background: var(--primary);
+  color: #ffffff;
+  padding: 12px 28px;
+  font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.purchases-container button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
