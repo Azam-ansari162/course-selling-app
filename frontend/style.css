@@ -1,56 +1,403 @@
+/* --- Google Fonts & Design Tokens --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-body{
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: #e0e7ff;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-subtle: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px -4px rgba(99, 102, 241, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --radius-lg: 18px;
+  --radius-md: 10px;
+}
 
-    /* Provides a reference point for the login button */
-    position: relative;
+/* --- Global Reset --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-.available-courses{ 
-    /* Changes: Now it dynamically adjusts 
-    its size based on the cards inside */
-    width: fit-content;
-    height: fit-content;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    gap: 20px;
+body {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 24px 60px;
+  position: relative;
 }
-.course{
-    border: 1px solid black;
-    padding: 10px;
-    height: 200px;
-    width: 200px;
 
+/* --- Fixed Controls (Logo & Corner Buttons) --- */
+.logo {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  z-index: 100;
+  transition: transform 0.25s ease;
 }
-.login-button{
-    position: fixed;
-    top: 20px;
-    right: 20px;
+
+.logo img {
+  width: 90px;
+  height: auto;
+  display: block;
 }
-.user-login{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    
+
+.logo:hover {
+  transform: scale(1.04);
 }
-.admin-login-button{
-   position: fixed;
-   bottom: 20px;
-   right: 20px; 
+
+.login-button,
+.admin-login-button {
+  text-decoration: none;
+  z-index: 100;
 }
-.logo{
-    position: fixed;
-    top: 20px;
-    left: 20px;
+
+.login-button {
+  position: fixed;
+  top: 24px;
+  right: 28px;
 }
-.main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+
+.admin-login-button {
+  position: fixed;
+  bottom: 24px;
+  right: 28px;
+}
+
+/* --- Standardized Buttons --- */
+button {
+  border: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Top-Right Navbar / Logout Buttons */
+.login-button button,
+#logoutBtn {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.login-button button:hover,
+#logoutBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
+
+/* Bottom "Teach" Floating Button */
+.admin-login-button button {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary);
+  border: 1.5px solid var(--border-subtle);
+  backdrop-filter: blur(8px);
+}
+
+.admin-login-button button:hover {
+  border-color: var(--primary);
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- Course Showcase (index.html) --- */
+.available-courses {
+  width: 100%;
+  max-width: 1120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin: 0 auto;
+}
+
+.course {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.course:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-light);
+}
+
+.course-badge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.course h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.course p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.course-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.course-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.course-footer button {
+  background: var(--primary);
+  color: #ffffff;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+}
+
+.course-footer button:hover {
+  background: var(--primary-hover);
+}
+
+/* --- Authentication Card (loginPage.html) --- */
+.user-login {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 400px;
+  padding: 38px 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: auto;
+}
+
+.user-login-header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.user-login-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.user-login-header p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.user-login input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background: #f8fafc;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.user-login input:focus {
+  background: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+.user-login .submit {
+  background: var(--primary);
+  color: #ffffff;
+  margin-top: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.user-login .submit:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.user-login .Signup {
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary-light);
+  padding: 11px;
+}
+
+.user-login .Signup:hover {
+  background: var(--primary-light);
+}
+
+/* --- Admin Dashboard Layout (adminDashboard.html) --- */
+.admin-box {
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0 auto;
+}
+
+.admin-box h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.action-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--shadow-md);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.action-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.action-card input,
+.action-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background: #f8fafc;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+.action-card input:focus,
+.action-card textarea:focus {
+  background: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.action-card button,
+#createBtn,
+#updateBtn {
+  background: var(--primary);
+  color: #ffffff;
+  align-self: flex-start;
+}
+
+.action-card button:hover,
+#createBtn:hover,
+#updateBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+#deleteBtn {
+  background: var(--danger) !important;
+  color: #ffffff !important;
+  align-self: flex-start;
+}
+
+#deleteBtn:hover {
+  background: var(--danger-hover) !important;
+  transform: translateY(-1px);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 640px) {
+  body {
+    padding: 110px 16px 80px;
+    align-items: stretch;
+  }
+
+  .logo {
+    top: 16px;
+    left: 16px;
+  }
+
+  .login-button {
+    top: 16px;
+    right: 16px;
+  }
+
+  .admin-login-button {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .available-courses {
+    grid-template-columns: 1fr;
+  }
+
+  .action-card button,
+  #deleteBtn {
+    align-self: stretch;
+  }
 }

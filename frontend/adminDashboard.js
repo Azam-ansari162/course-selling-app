@@ -5,8 +5,8 @@ if(!adminToken){
 }
 
 document.getElementById("createBtn").addEventListener("click",async()=>{
-    const course=document.getElementById("createTitle").ariaValueMax.trim()
-    const description=document.getElementById("createDesc").ariaValueMax.trim()
+    const course=document.getElementById("createTitle").value.trim()
+    const description=document.getElementById("createDesc").value.trim()
     const price=Number(document.getElementById("createPrice").value)
 
     if(!course || !description || isNaN(price)){
@@ -15,7 +15,7 @@ document.getElementById("createBtn").addEventListener("click",async()=>{
     }
 
     try{
-        const response=await fetch("http:/localhost:3000/course/create",{
+        const response=await fetch("http://localhost:3000/course/create",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
@@ -29,7 +29,7 @@ document.getElementById("createBtn").addEventListener("click",async()=>{
             alert(data.msg || "Course created successfully!")
             document.getElementById("createTitle").value=""
             document.getElementById("createDesc").value=""
-            document.getElementById("creatPrice").value=""
+            document.getElementById("createPrice").value=""
         }
         else{
             alert(data.msg || "Failed tpo create course.")
