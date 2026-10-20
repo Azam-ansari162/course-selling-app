@@ -1,6 +1,6 @@
 const adminToken=localStorage.getItem("adminToken")
 if(!adminToken){
-    alert("Unauthorised! please sign inas an admin.")
+    alert("Unauthorised! please sign in as an admin.")
     window.location.href="loginPage.html?role=admin"
 }
 
@@ -42,7 +42,7 @@ document.getElementById("createBtn").addEventListener("click",async()=>{
     }
 })
 document.getElementById("updateBtn").addEventListener("click",async ()=>{
-    const courseId=document.getElementById("updateBtn").value.trim()
+    const courseId=document.getElementById("updateId").value.trim()
     const course=document.getElementById("updateTitle").value.trim()
     const description=document.getElementById("updateDesc").value.trim()
     const priceInput=document.getElementById("updatePrice").value
@@ -85,7 +85,7 @@ document.getElementById("updateBtn").addEventListener("click",async ()=>{
     }
 })
 
-document.getElementById("deletebtn").addEventListener("click",async ()=>{
+document.getElementById("deleteBtn").addEventListener("click",async ()=>{
     const course=document.getElementById("deleteId").value.trim()
 
     if(!course){
