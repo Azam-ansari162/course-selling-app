@@ -431,3 +431,98 @@ button {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
 }
+
+
+/* --- Purchased Courses Page Styles --- */
+.purchased-courses {
+  width: 100%;
+  max-width: 1120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Emerald Accent for Enrolled Badge & Button */
+.purchased-badge {
+  color: #059669;
+  background: #d1fae5;
+}
+
+.course-footer .enrolled-btn {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  cursor: default;
+}
+
+.course-footer .enrolled-btn:hover {
+  background: #ecfdf5;
+  transform: none;
+}
+
+/* Empty & Error State Card */
+.empty-state {
+  grid-column: 1 / -1;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--shadow-md);
+  padding: 48px 28px;
+  text-align: center;
+  max-width: 460px;
+  width: 100%;
+  margin: 16px auto;
+}
+
+.empty-state h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.empty-state button {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.empty-state button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 640px) {
+  .purchased-courses {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header h1 {
+    font-size: 1.7rem;
+  }
+}
