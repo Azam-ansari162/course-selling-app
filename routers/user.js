@@ -6,26 +6,51 @@ const jwt=require("jsonwebtoken")
 // always keep diff pwd for user and admin
 const JWT_USER_SECRET=process.env.JWT_USER_SECRET
 const {userMiddleware}=require("../middlewares/user.js")
+const {GoogleGenAI}=require("@google/genai")
+const ai=new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY})
 
+userRouter.post('/chat',async(req,res)=>{
+    try{
+        const {message}=req.body
+        if(!message) return res.status(403).json({msg:"Message is required"})
+        const courses=await CourseModel.find({})
+        const courseCatalog=courses.map((c)=>`-${c.course} (₹${c.price}): ${c.description}`).join('\n')
+        const systemPrompt=`You are a helpful AI teaching assistant for an online course platform.
+        Here are the courses currently available:
+        ${courseCatalog || "No courses listed yet."}
 
+        Answer student questions about which course to pick, explain concepts clearly, and keep responses under 100 words.`;
+        const response=await ai.models.generateContent({
+            model:"gemini-2.5-flash",
+            contents: message,
+            config: { systemInstruction: systemPrompt },
+        })
+        res.json({reply:response.text});
 
-    userRouter.post('/signup',async (req,res)=>{
-    const username=req.body.email
-    const password=req.body.password
-    const firstName=req.body.firstName
-    const lastName=req.body.lastName
-    // TODO: hash the password using bcrypt
-    // TODO: add zod validation too
-    // TODO: put inside a try catch block
-    await UserModel.create({
-        email:username,
-        password:password,
-        firstName:firstName,
-        lastName:lastName
-    })
-    res.json({
-        msg:"User added"
-    })
+    }
+    catch(err){
+        console.error("Gemini Error:", err);
+        res.status(500).json({ msg: "AI is temporarily unavailable." });
+    }
+})
+
+userRouter.post('/signup',async (req,res)=>{
+const username=req.body.email
+const password=req.body.password
+const firstName=req.body.firstName
+const lastName=req.body.lastName
+// TODO: hash the password using bcrypt
+// TODO: add zod validation too
+// TODO: put inside a try catch block
+await UserModel.create({
+    email:username,
+    password:password,
+    firstName:firstName,
+    lastName:lastName
+})
+res.json({
+    msg:"User added"
+})
 
 
 

@@ -1,38 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Course Selling App</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div  class="logo">
-        <a href="index.html">        <img style="width: 100px; cursor: pointer; " src="img/Gemini_Generated_Image_i17t7li17t7li17t.png" alt="">
-</a>
-    </div>
-    
-      <!-- for regular users -->
-    <a href="loginPage.html?role=user" class="login-button">
-    <button style="cursor: pointer;">login/signup</button>
-</a>
-    <!-- for admin -->
-<a href="loginPage.html?role=admin" class="admin-login-button">
-    <button style="cursor: pointer;">Teach</button>
-</a>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<div class="main-container">
-    <a href="purchases.html" class="purchases-link">
-        <button class="js-purchase-btn" style="cursor: pointer;">Go to purchases</button>
+  <body>
+    <div class="logo">
+      <a href="index.html">
+        <img
+          style="width: 100px; cursor: pointer"
+          src="img/Gemini_Generated_Image_i17t7li17t7li17t.png"
+          alt=""
+        />
+      </a>
+    </div>
+
+    <!-- for regular users -->
+    <a href="loginPage.html?role=user" class="login-button">
+      <button style="cursor: pointer">login/signup</button>
     </a>
-    <div class="available-courses"></div>
-</div>
-  
-    
-    
-    
-  
+    <!-- for admin -->
+    <a href="loginPage.html?role=admin" class="admin-login-button">
+      <button style="cursor: pointer">Teach</button>
+    </a>
+
+    <div class="main-container">
+      <a href="purchases.html" class="purchases-link">
+        <button class="js-purchase-btn" style="cursor: pointer">
+          Go to purchases
+        </button>
+      </a>
+      <div class="available-courses"></div>
+    </div>
+
+    <!-- Floating AI Chatbot -->
+    <button id="chatToggleBtn" class="chat-toggle-btn" type="button">
+      💬 Ask AI
+    </button>
+
+    <div id="chatWindow" class="chat-window hidden">
+      <div class="chat-header">
+        <div>
+          <h4>Course Assistant</h4>
+          <span>Powered by AI</span>
+        </div>
+        <button id="chatCloseBtn" class="chat-close-btn" type="button">
+          ✕
+        </button>
+      </div>
+      <div id="chatMessages" class="chat-messages">
+        <div class="chat-bubble bot-bubble">
+          Hi! 👋 Ask me anything about our courses!
+        </div>
+      </div>
+      <form id="chatForm" class="chat-input-area">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Type a message..."
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
     <script src="index.js"></script>
-    
-</body>
+  </body>
 </html>
