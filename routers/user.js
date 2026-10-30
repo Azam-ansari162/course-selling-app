@@ -21,7 +21,7 @@ userRouter.post('/chat',async(req,res)=>{
 
         Answer student questions about which course to pick, explain concepts clearly, and keep responses under 100 words.`;
         const response=await ai.models.generateContent({
-            model:"gemini-2.5-flash",
+            model:"gemini-3.8-flash",
             contents: message,
             config: { systemInstruction: systemPrompt },
         })
