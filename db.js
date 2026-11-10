@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const { string } = require("zod")
 const Schema=mongoose.Schema
 const ObjectId=mongoose.Schema.Types.ObjectId
 
@@ -28,7 +29,11 @@ const Purchase=new Schema({
     course:String,
     timeOfPurchase:Date,
     courseId:ObjectId,
-    UserId:ObjectId
+    UserId:ObjectId,
+    paymentId:String, // razorpay paymentId
+    orderId:String, //razorpay orderId
+    amount:Number //amount paid
+    
 })
 
 const UserModel=mongoose.model('users',User)

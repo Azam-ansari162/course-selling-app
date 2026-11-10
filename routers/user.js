@@ -9,6 +9,121 @@ const {userMiddleware}=require("../middlewares/user.js")
 const {GoogleGenAI}=require("@google/genai")
 const ai=new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY})
 
+// initializing razorpay
+const Razorpay=require("razorpay")
+const crypto=require("crypto")
+const { countReset } = require("console")
+const razorpay=new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+})
+
+// 1. Create an Order with Razorpay
+userRouter.post('/create-order',userMiddleware,async (req,res)=>{
+    const {courseId}=req.body
+    const UserId=req._id
+    if (!courseId) {
+        return res.status(400).json({ msg: "courseId is required" });
+    }
+    try {
+        const course=await CourseModel.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ msg: "Course not found" });
+        }
+        const alreadyBought=await PurchaseModel.findOne({
+            courseId:course._id,
+            UserId:UserId
+        })
+        if (alreadyBought) {
+            return res.status(400).json({ msg: "You have already purchased this course" });
+        }
+        // Registering an Order on Razorpay's server
+        const options={
+            amount:Math.round(course.price*100),
+            currency:"INR",
+            receipt:`rcpt_${Date.now()}`
+        }
+
+        // This calls Razorpay's API and creates the order on their servers.
+        // Razorpay replies with an order object containing a unique order.id (looks like order_ODr4l6fUq90M7w).
+        // Your frontend needs this order.id so the payment popup knows which order the user is paying for.
+        const order=await razorpay.orders.create(options)
+        res.json({
+            
+            orderId:order.id,
+            amount:order.amount,
+            currency:order.currency,
+            keyId:process.env.RAZORPAY_KEY_ID,
+            courseName:course.course,
+            courseId:course._id
+            
+        
+        })
+
+    }
+    catch(err){
+        console.error("Order creation error:", err);
+        res.status(500).json({ msg: "Failed to initiate payment" });
+    }
+
+})
+
+// 2. Verify Payment Signature & Save Purchase in DB
+userRouter.post('/verify-payment',userMiddleware,async (req,res)=>{
+    // when user pays 
+    // razorpay return 3 things 
+    const razorpay_order_id = req.body.razorpay_order_id;
+    const razorpay_payment_id = req.body.razorpay_payment_id;
+    const razorpay_signature = req.body.razorpay_signature;
+    
+    const UserId=req._id
+
+    const courseId=req.body.courseId
+    // if any var is missing then there is some error
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !courseId) {
+        return res.status(400).json({ msg: "Missing payment verification parameters" });
+    }
+    try{
+
+    
+    // Compute expected HMAC SHA-256 signature using your secret key
+    const expectedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest("hex");
+    if (expectedSignature !== razorpay_signature) {
+        return res.status(400).json({ msg: "Invalid payment signature. Verification failed." });
+    }
+    const course=await CourseModel.findById(courseId)
+    if (!course) {
+        return res.status(404).json({ msg: "Course not found" });
+    }
+    // Check again to avoid duplicate entries
+    const alreadyBought = await PurchaseModel.findOne({
+        courseId: course._id,
+        UserId:UserId
+    });
+    if (alreadyBought) {
+        return res.status(400).json({ msg: "Course already purchased" });
+    }
+
+    await PurchaseModel.create({
+        course:course.course,
+        timeOfPurchase:new Date(),
+        courseId:courseId,
+        UserId:UserId,
+        paymentId:razorpay_payment_id, // razorpay paymentId
+        orderId:razorpay_order_id, //razorpay orderId
+        amount:course.price //amount paid
+    })
+    res.json({ msg: "Payment verified and course purchased successfully!" });
+    }
+    catch(err){
+        console.error("Payment verification error:", err);
+        res.status(500).json({ msg: "Server error during payment verification" });
+    }
+})
+
 userRouter.post('/chat',async(req,res)=>{
     try{
         const {message}=req.body
